@@ -30,5 +30,11 @@ const obj = {
     name: "Dheeraj Sonkar",
     age: 24
 }
+// Object.freeze(obj);
 obj.age = 22;
 console.log(obj)
+
+function abcd(){
+    return "Dheeraj Sonkar"
+}
+console.log(abcd()) 
