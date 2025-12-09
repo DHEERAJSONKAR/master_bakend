@@ -14,14 +14,17 @@ app.get("/create", async (req,res)=>{
     })
     res.send(createduser)
 })
-app.get("/update", async (req,res)=>{
-   const updateduser =  await userModel.findOneAndUpdate({name:"john"}, {name:"raj kumar sonkar"}, {new:true})
-    res.send(updateduser)
-})
+
 app.get("/read",  async (req,res)=>{
     const read =  await userModel.find()
     res.send(read)
 })
+
+app.get("/update", async (req,res)=>{
+   const updateduser =  await userModel.findOneAndUpdate({name:"john"}, {name:"raj kumar sonkar"}, {new:true})
+    res.send(updateduser)
+})
+
 app.get("/delete", async (req,res)=>{
    const deleteduser =  await userModel.findOneAndDelete({name:"raj kumar sonkar"})
     res.send(deleteduser)
