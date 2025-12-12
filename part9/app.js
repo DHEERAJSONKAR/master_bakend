@@ -14,6 +14,7 @@ app.use(express.static(path.join(__dirname, "public")))
 app.get("/", (req, res) => {
     res.render("index")
 })
+
 app.post("/create", (req, res) => {
     let { username, password, email, age } = req.body;
     bcrypt.genSalt(10, (err, salt) => {
@@ -32,7 +33,25 @@ app.post("/create", (req, res) => {
     })
 
 })
+app.get("/login", (req,res)=>{
+    res.render("login")
+})
+app.post("/login",async (req,res)=>{
+    const user = await userModel.findOne({email: req.body.email})
+    if(!user) return res.send("something went wrong")
+    bcrypt.compare(req.body.password, user.password,(err, result)=>{
+if(result) {
+    let token = jwt.sign({email: user.email}, "dsfdfdfsd")
+    res.cookie("token", token)
+    res.send("logged in")
+
+}
+else res.send("something went wrong") 
+})
+})
 app.get("/delete",(req,res)=>{ 
+    res.cookie("token", "")
+    res.redirect("/")
 
 })
 app.listen(3000, () => {
