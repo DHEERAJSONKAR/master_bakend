@@ -12,21 +12,25 @@
         <a  class="bg-red-500 rounded-md px-3 py-2 text-sm inline-block mb-5" href="/logout">Logout</a>
         </div>
         <h3 class="text-3xl mb-5"><span class="font-bold">Hello</span>,<%= user.username %>👋</h3>
-        <h5>You can create a new post</h5>
+        <h5 class="mb-5">You can create a new post</h5>
         <form action="/post" method="post">
             <textarea placeholder="What's on your mind ?" class=" block p-3 w-1/3 resize-none bg-transparent border-2 border-zinc-800 rounded-mb" name="content"></textarea>
             <input class="px-3 w-40 text-sm py-2 bg-blue-500 block rounded-mb mt-2" type="Submit" value="Create New Post">
         </form>
         <div class="posts mt-20">
             <h3 class="text-zinc-400">Your Posts.</h3>
-            <div class="postcontainer">
-                <div class="post w-1/3 p-4 rounded-md bg-zinc-800 border-2 border-zinc-700">
-                    <h4 class="text-blue-500 mb-2">@skfsdxfgd</h4>
-                    <p class="text-sm tracking-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic minima fuga voluptate placeat officia saepe cum est ipsa atque delectus inventore, expedita aspernatur explicabo impedit sapiente omnis autem accusamus eius.</p>
+            <div class="postcontainer mt-5 flex flex-col gap-4">
+                <% user.post.reverse().forEach(function(post){ %>
+                    <div class="post w-1/3 p-4 rounded-md bg-zinc-800 border-2 border-zinc-700">
+                    <h4 class="text-blue-500 mb-2">@<%= user.username %></h4>
+                    <p class="text-sm tracking-tight"> <%= post.content %></p>
+                    <small class="mt-2 inline-block"><%= post.like.length %> Likes </small>
                     <div class="btns gap-4 flex">
-                        <a class="text-blue-500 mt-4" href="">Like</a>
-                        <a class="text-zinc-500 mt-4" href="">Edit</a>
+                        <a class="text-blue-500 mt-4" href="/like/<%= post._id %>"><%= post.like.indexOf(user._id) === -1 ? "Like" : "Unlike" %></a>
+                        <a class="text-zinc-500 mt-4" href="/edit/<%= post._id %>">Edit</a>
                     </div>
+                </div>
+               <% })%>
                 </div>
             </div>
         </div>
