@@ -11,10 +11,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+const upload = require('./config/multer');
 
 app.get('/', (req, res) => {
   res.render('index');
 });
+
+app.get("/profile/upload", (req,res)=>{
+  res.render("profileupload")
+})
+app.post("/upload", upload.single('image'), (req,res)=>{
+  console.log(req.file);
+  res.send("File uploaded successfully")
+
+})
 app.get("/profile", isLoggedIn, async (req,res)=>{ 
   let user = await userModel.findOne({email: req.user.email}).populate("post")
   res.render("profile", {user:user})
